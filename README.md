@@ -1,1 +1,0 @@
-# Softcare-Hospital-Management
