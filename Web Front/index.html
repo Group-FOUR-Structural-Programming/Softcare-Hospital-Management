@@ -1,42 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Patient Self Registration Portal</title>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .container { max-width: 400px; margin: auto; }
-    form { margin-bottom: 20px; }
-    input { display: block; width: 100%; margin-bottom: 10px; padding: 8px; }
-    button { padding: 10px; width: 100%; }
-    .message { margin-top: 10px; color: red; }
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #f9fbfd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    .container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0d47a1;
+    }
+
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      color: #1565c0;
+      border-bottom: 2px solid #e3f2fd;
+      padding-bottom: 5px;
+    }
+
+    form {
+      margin-top: 15px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #1e88e5;
+      box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.15);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #1e88e5;
+      border: none;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #1565c0;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .message {
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+
+    .message.success {
+      color: #2e7d32;
+    }
+
+    .message.error {
+      color: #c62828;
+    }
+
+    /* Small screens */
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        border-radius: 0;
+        min-height: 100vh;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>Patient Self Registration Portal</h1>
+    <h1>SMARTCARE</h1>
 
-    <h2>Login</h2>
+    <h2>Patient Login</h2>
     <form id="loginForm">
-      <input type="text" id="loginUsername" placeholder="Username" required>
-      <input type="password" id="loginPassword" placeholder="Password" required>
+      <input type="text" id="loginUsername" placeholder="Username" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
       <button type="submit">Login</button>
     </form>
     <div id="loginMessage" class="message"></div>
 
-    <h2>Register</h2>
+    <h2>Patient Registration</h2>
     <form id="registerForm">
-      <input type="text" id="regName" placeholder="Name" required>
-      <input type="number" id="regAge" placeholder="Age" required>
+      <input type="text" id="regName" placeholder="Full Name" required />
+      <input type="number" id="regAge" placeholder="Age" required />
       <select id="regGender" required>
         <option value="">Select Gender</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
       </select>
-      <input type="text" id="regContact" placeholder="Contact" required>
-      <input type="text" id="regUsername" placeholder="Username" required>
-      <input type="password" id="regPassword" placeholder="Password" required>
+      <input type="text" id="regContact" placeholder="Contact Number" required />
+      <input type="text" id="regUsername" placeholder="Username" required />
+      <input type="password" id="regPassword" placeholder="Password" required />
       <button type="submit">Register</button>
     </form>
     <div id="registerMessage" class="message"></div>
@@ -48,17 +147,25 @@
     const loginMessage = document.getElementById('loginMessage');
     const registerMessage = document.getElementById('registerMessage');
 
+    function setMessage(element, message, success) {
+      element.textContent = message;
+      element.className = 'message ' + (success ? 'success' : 'error');
+    }
+
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('loginUsername').value;
       const password = document.getElementById('loginPassword').value;
+
       const response = await fetch('/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
+
       const result = await response.json();
-      loginMessage.textContent = result.message;
+      setMessage(loginMessage, result.message, result.success);
+
       if (result.success) {
         alert('Login successful!');
       }
@@ -72,15 +179,17 @@
       const contact = document.getElementById('regContact').value;
       const username = document.getElementById('regUsername').value;
       const password = document.getElementById('regPassword').value;
+
       const response = await fetch('/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, age, gender, contact, username, password })
       });
+
       const result = await response.json();
-      registerMessage.textContent = result.message;
+      setMessage(registerMessage, result.message, result.success);
+
       if (result.success) {
-        alert('Registration successful!');
         registerForm.reset();
       }
     });

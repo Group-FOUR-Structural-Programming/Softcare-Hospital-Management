@@ -47,15 +47,24 @@ app.post('/login', (req, res) => {
 // Register endpoint
 app.post('/register', (req, res) => {
   const { name, age, gender, contact, username, password } = req.body;
-  // Basic validation
-  if (!name || !age || !gender || !contact || !username || !password) {
-    return res.json({ success: false, message: 'All fields are required' });
+  // Validation matching patient.c
+  if (!name) {
+    return res.json({ success: false, message: 'Invalid name. Name cannot be empty.' });
   }
   if (age < 1 || age > 120) {
-    return res.json({ success: false, message: 'Invalid age' });
+    return res.json({ success: false, message: 'Invalid age. Age must be between 1 and 120.' });
   }
   if (gender !== 'Male' && gender !== 'Female') {
-    return res.json({ success: false, message: 'Invalid gender' });
+    return res.json({ success: false, message: 'Invalid gender. Please enter Male or Female.' });
+  }
+  if (!contact) {
+    return res.json({ success: false, message: 'Invalid contact. Contact cannot be empty.' });
+  }
+  if (!username) {
+    return res.json({ success: false, message: 'Invalid username. Username cannot be empty.' });
+  }
+  if (!password) {
+    return res.json({ success: false, message: 'Invalid password. Password cannot be empty.' });
   }
 
   // Check if username already exists
@@ -70,7 +79,7 @@ app.post('/register', (req, res) => {
         return res.json({ success: false, message: 'Username already exists' });
       }
     }
-    // Append new patient
+    // Append new patient in the same order as patient.c: name age gender contact username password
     const newLine = `${name} ${age} ${gender} ${contact} ${username} ${password}\n`;
     fs.appendFile(patientsFile, newLine, (err) => {
       if (err) {
