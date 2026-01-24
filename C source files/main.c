@@ -12,30 +12,30 @@ void homeMenu() {
 
     do {
         printf("\n=== SMARTCARE HOSPITAL MANAGEMENT ===\n");
-        printf("1. Register Patient\n");
-        printf("2. View Records\n");
-        printf("3. Schedule Appointment\n");
-        printf("4. User Profile\n");
-        printf("5. Manage Staff\n");
+        printf("1. Patient Management\n");
+        printf("2. Appointment Management\n");
+        printf("3. User Profile\n");
+        printf("4. Staff Management (Only for admins)\n");
+        printf("5. Medical Records\n");
         printf("0. Exit\n");
         printf("Choose option: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                registerPatient();
+                patientManagementMenu();
                 break;
             case 2:
-                viewRecords();
+                appointmentManagementMenu();
                 break;
             case 3:
-                scheduleAppointment();
-                break;
-            case 4:
                 userProfileMenu();
                 break;
-            case 5:
+            case 4:
                 manageStaff();
+                break;
+            case 5:
+                medicalRecordsMenu();
                 break;
             case 0:
                 printf("Exiting system...\n");

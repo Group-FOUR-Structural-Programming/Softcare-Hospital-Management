@@ -8,6 +8,7 @@ struct Patient {
     char contact[20];
     char username[50];
     char password[50];
+    float totalDueCharges;
 };
 
 void registerPatient();

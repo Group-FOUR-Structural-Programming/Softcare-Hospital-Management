@@ -1,1 +1,3 @@
-2 NURSE 07856652
+Doctor doctor 0712345678 Doctor Doctor
+Nurse nurse 0712345678 Nurse Nurse
+Admin admin 0712345678 Admin Admin

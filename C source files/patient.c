@@ -47,9 +47,10 @@ void registerPatient() {
         printf("Invalid password. Password cannot be empty.\n");
         return;
     }
+    p.totalDueCharges = 0.0; // Initialize to 0
     FILE *fp = fopen("patients.txt", "a");
     if (fp) {
-        fprintf(fp, "%s %d %s %s %s %s\n", p.name, p.age, p.gender, p.contact, p.username, p.password);
+        fprintf(fp, "%s %d %s %s %s %s %.2f\n", p.name, p.age, p.gender, p.contact, p.username, p.password, p.totalDueCharges);
         fclose(fp);
         printf("Patient registered successfully.\n");
     } else {

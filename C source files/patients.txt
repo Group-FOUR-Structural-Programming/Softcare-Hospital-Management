@@ -1,3 +1,2 @@
-clear 0 }лчZЗ 
-mioo 90 Male 078978679
-Patient1 20 Male 0730256871 patient1 patient1
+Kanye 50 Male 07458 Kanye Kanye 0.00
+Jay-Z 56 Male 0798765432 Hov Hov 554.00

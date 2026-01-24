@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include "login.h"
 #include "registration.h"
+#include "staff.h"
 
 char currentRole[50];
+char currentUsername[50];
 
 void loginUser() {
     char username[50], password[50];
@@ -13,27 +15,30 @@ void loginUser() {
     scanf("%s", username);
     printf("Enter password: ");
     scanf("%s", password);
-    FILE *fp = fopen("users.txt", "r");
-    if (fp) {
-        struct User user;
-        int found = 0;
-        // Loop through all users in the file to find matching credentials
-        while (fscanf(fp, "%s %s %s", user.username, user.password, user.role) != EOF) {
-            if (strcmp(user.username, username) == 0 && strcmp(user.password, password) == 0) {
-                found = 1;
+    // Authenticate against staff.txt
+    FILE *sfp = fopen("staff.txt", "r");
+    if (sfp) {
+        struct Staff s;
+        int foundStaff = 0;
+        // staff.txt format: name role contact username password
+        while (fscanf(sfp, "%s %s %s %s %s", s.name, s.role, s.contact, s.username, s.password) != EOF) {
+            if (strcmp(s.username, username) == 0 && strcmp(s.password, password) == 0) {
+                foundStaff = 1;
                 break;
             }
         }
-        fclose(fp);
-        if (found) {
-            strcpy(currentRole, user.role);  // Store the role of the logged in user
+        fclose(sfp);
+        if (foundStaff) {
+            strcpy(currentRole, s.role);
+            strcpy(currentUsername, s.username);
             printf("Login successful.\n");
+            return;
         } else {
             printf("Invalid credentials.\n");
             exit(0);
         }
     } else {
-        printf("No users registered.\n");
+        printf("No staff registered (staff.txt missing).\n");
         exit(0);
     }
 }

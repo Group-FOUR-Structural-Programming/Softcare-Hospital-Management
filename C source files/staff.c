@@ -25,9 +25,13 @@ void manageStaff() {
             scanf("%s", s.role);
             printf("Enter contact: ");
             scanf("%s", s.contact);
+            printf("Enter username: ");
+            scanf("%s", s.username);
+            printf("Enter password: ");
+            scanf("%s", s.password);
             FILE *fp = fopen("staff.txt", "a");
             if (fp) {
-                fprintf(fp, "%s %s %s\n", s.name, s.role, s.contact);
+                fprintf(fp, "%s %s %s %s %s\n", s.name, s.role, s.contact, s.username, s.password);
                 fclose(fp);
                 printf("Staff added.\n");
             }
@@ -36,8 +40,9 @@ void manageStaff() {
             if (fp) {
                 struct Staff s;
                 printf("\n--- Staff List ---\n");
-                while (fscanf(fp, "%s %s %s", s.name, s.role, s.contact) != EOF) {
-                    printf("Name: %s, Role: %s, Contact: %s\n", s.name, s.role, s.contact);
+                while (fscanf(fp, "%s %s %s %s %s", s.name, s.role, s.contact, s.username, s.password) != EOF) {
+                    //Do not print passwords
+                    printf("Name: %s, Role: %s, Contact: %s, Username: %s\n", s.name, s.role, s.contact, s.username);
                 }
                 fclose(fp);
             } else {
