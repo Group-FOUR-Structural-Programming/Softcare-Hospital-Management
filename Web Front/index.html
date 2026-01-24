@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Self Registration Portal</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { max-width: 400px; margin: auto; }
+    form { margin-bottom: 20px; }
+    input { display: block; width: 100%; margin-bottom: 10px; padding: 8px; }
+    button { padding: 10px; width: 100%; }
+    .message { margin-top: 10px; color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Patient Self Registration Portal</h1>
+
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div id="loginMessage" class="message"></div>
+
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="text" id="regName" placeholder="Name" required>
+      <input type="number" id="regAge" placeholder="Age" required>
+      <select id="regGender" required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <input type="text" id="regContact" placeholder="Contact" required>
+      <input type="text" id="regUsername" placeholder="Username" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+    <div id="registerMessage" class="message"></div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const loginMessage = document.getElementById('loginMessage');
+    const registerMessage = document.getElementById('registerMessage');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const result = await response.json();
+      loginMessage.textContent = result.message;
+      if (result.success) {
+        alert('Login successful!');
+      }
+    });
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regName').value;
+      const age = parseInt(document.getElementById('regAge').value);
+      const gender = document.getElementById('regGender').value;
+      const contact = document.getElementById('regContact').value;
+      const username = document.getElementById('regUsername').value;
+      const password = document.getElementById('regPassword').value;
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, age, gender, contact, username, password })
+      });
+      const result = await response.json();
+      registerMessage.textContent = result.message;
+      if (result.success) {
+        alert('Registration successful!');
+        registerForm.reset();
+      }
+    });
+  </script>
+</body>
+</html>

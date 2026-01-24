@@ -11,3 +11,18 @@
 *.cbp.bak
 bin/
 obj/
+
+# Node.js
+node_modules/
+dist/
+.env
+npm-debug.log
+yarn-error.log
+# Logs
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+

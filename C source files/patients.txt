@@ -1,0 +1,3 @@
+clear 0 }лчZЗ 
+mioo 90 Male 078978679
+Patient1 20 Male 0730256871 patient1 patient1

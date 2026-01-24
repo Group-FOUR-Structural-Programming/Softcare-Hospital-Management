@@ -11,10 +11,13 @@ void startRegistration() {
     scanf("%s", user.password);
     printf("Enter role (admin/doctor/nurse): ");
     scanf("%s", user.role);
+
+    //Due to the uncontrolled power of System Admins create a secret password to control registration of that role
     if (strcmp(user.role, "admin") == 0) {
         char secret[50];
         printf("Enter admin secret password: ");
         scanf("%s", secret);
+
         if (strcmp(secret, "ADMINPASS") != 0) {
             printf("Invalid admin password. Registration failed.\n");
             return;

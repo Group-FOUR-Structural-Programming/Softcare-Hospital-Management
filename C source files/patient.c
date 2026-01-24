@@ -35,9 +35,21 @@ void registerPatient() {
         printf("Invalid contact. Contact cannot be empty.\n");
         return;
     }
+    printf("Enter username: ");
+    scanf("%s", p.username);
+    if (strlen(p.username) == 0) {
+        printf("Invalid username. Username cannot be empty.\n");
+        return;
+    }
+    printf("Enter password: ");
+    scanf("%s", p.password);
+    if (strlen(p.password) == 0) {
+        printf("Invalid password. Password cannot be empty.\n");
+        return;
+    }
     FILE *fp = fopen("patients.txt", "a");
     if (fp) {
-        fprintf(fp, "%s %d %s %s\n", p.name, p.age, p.gender, p.contact);
+        fprintf(fp, "%s %d %s %s %s %s\n", p.name, p.age, p.gender, p.contact, p.username, p.password);
         fclose(fp);
         printf("Patient registered successfully.\n");
     } else {
