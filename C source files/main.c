@@ -6,6 +6,7 @@
 #include "appointment.h"
 #include "profile.h"
 #include "staff.h"
+#include "billing.h"
 
 void homeMenu() {
     int choice;
@@ -17,6 +18,7 @@ void homeMenu() {
         printf("3. User Profile\n");
         printf("4. Staff Management (Only for admins)\n");
         printf("5. Medical Records\n");
+        printf("6. Billing\n");
         printf("0. Exit\n");
         printf("Choose option: ");
         scanf("%d", &choice);
@@ -36,6 +38,9 @@ void homeMenu() {
                 break;
             case 5:
                 medicalRecordsMenu();
+                break;
+            case 6:
+                billingMenu();
                 break;
             case 0:
                 printf("Exiting system...\n");

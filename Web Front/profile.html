@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMARTCARE HOSPITAL - Patient's Portal</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #f9fbfd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+    .container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0d47a1;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1565c0;
+    }
+    .details {
+      margin-bottom: 20px;
+    }
+    .details p {
+      margin: 5px 0;
+    }
+    form {
+      margin-top: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #1e88e5;
+      border: none;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+    .message {
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+    .message.success {
+      color: #2e7d32;
+    }
+    .message.error {
+      color: #c62828;
+    }
+    .back {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .back a {
+      color: #1e88e5;
+      text-decoration: none;
+    }
+    .back a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SMARTCARE HOSPITAL</h1>
+    <h2>Patient's Profile</h2>
+    <div class="details" id="profileDetails">
+      Loading...
+    </div>
+    <h3>Change Password</h3>
+    <form id="changePasswordForm">
+      <input type="password" id="newPassword" placeholder="New Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm New Password" required />
+      <button type="submit">Change Password</button>
+    </form>
+    <div id="passwordMessage" class="message"></div>
+    <div class="back">
+      <a href="#" id="backLink">Back to Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+
+    if (!username) {
+      window.location.href = '/login';
+    }
+
+    // Fetch profile details
+    fetch(`/api/profile?username=${username}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('profileDetails').innerHTML = `
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Age:</strong> ${data.age}</p>
+          <p><strong>Gender:</strong> ${data.gender}</p>
+          <p><strong>Contact:</strong> ${data.contact}</p>
+          <p><strong>Username:</strong> ${data.username}</p>
+          <p><strong>Total Due Charges:</strong> $${data.totalDueCharges}</p>
+        `;
+      });
+
+    // Change password
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const passwordMessage = document.getElementById('passwordMessage');
+
+    changePasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (newPassword !== confirmPassword) {
+        passwordMessage.textContent = 'Passwords do not match';
+        passwordMessage.className = 'message error';
+        return;
+      }
+
+      const response = await fetch('/api/changePassword', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, newPassword })
+      });
+
+      const result = await response.json();
+      passwordMessage.textContent = result.message;
+      passwordMessage.className = 'message ' + (result.success ? 'success' : 'error');
+
+      if (result.success) {
+        changePasswordForm.reset();
+      }
+    });
+
+    // Back link
+    document.getElementById('backLink').href = `/dashboard?username=${username}`;
+  </script>
+</body>
+</html>

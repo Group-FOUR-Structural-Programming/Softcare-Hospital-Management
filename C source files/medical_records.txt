@@ -1,3 +1,5 @@
-Jay-z|malaria|anti-biotics|256.00
+Jay-Z|malaria|anti-biotics|256.00
 Jay-Z|Fakeness|Carelessness|254.00
 Jay-Z|Typhoid|you|300.00
+Patient1|ugonjwa|dawa|263.00
+Patient1|magonjwa|madawa|562.00

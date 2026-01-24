@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMARTCARE HOSPITAL - Patient's Portal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+    .header {
+      background: #0d47a1;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .box {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .box h3 {
+      margin-top: 0;
+      color: #1565c0;
+    }
+    .profile-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #1e88e5;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .profile-link:hover {
+      background: #1565c0;
+    }
+    .logout {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .logout a {
+      color: #c62828;
+      text-decoration: none;
+    }
+    .logout a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>SMARTCARE HOSPITAL</h1>
+    <h2>Patient's Dashboard</h2>
+  </div>
+  <div class="dashboard">
+    <div class="box" id="profileBox">
+      <h3>Profile & Charges</h3>
+      <p id="profileInfo">Loading...</p>
+      <a href="#" id="profileLink" class="profile-link">View Profile</a>
+    </div>
+    <div class="box" id="appointmentsBox">
+      <h3>Appointments</h3>
+      <p id="appointmentsInfo">Loading...</p>
+    </div>
+    <div class="box" id="medicalBox">
+      <h3>Medical Records</h3>
+      <p id="medicalInfo">Loading...</p>
+    </div>
+  </div>
+  <div class="logout">
+    <a href="/">Logout</a>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+
+    if (!username) {
+      window.location.href = '/login';
+    }
+
+    // Fetch profile info
+    fetch(`/api/profile?username=${username}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          document.getElementById('profileInfo').textContent = 'Error loading profile';
+        } else {
+          document.getElementById('profileInfo').textContent = `Name: ${data.name}, Due Charges: $${data.totalDueCharges}`;
+        }
+      })
+      .catch(err => {
+        document.getElementById('profileInfo').textContent = 'Error loading profile';
+      });
+
+    // Fetch appointments
+    fetch(`/api/appointments?username=${username}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          document.getElementById('appointmentsInfo').textContent = 'Error loading appointments';
+        } else {
+          const info = data.length ? data.map(a => `${a.date} ${a.time} - ${a.doctor}`).join('<br>') : 'No appointments';
+          document.getElementById('appointmentsInfo').innerHTML = info;
+        }
+      })
+      .catch(err => {
+        document.getElementById('appointmentsInfo').textContent = 'Error loading appointments';
+      });
+
+    // Fetch medical records
+    fetch(`/api/medical?username=${username}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          document.getElementById('medicalInfo').textContent = 'Error loading medical records';
+        } else {
+          const info = data.length ? data.map(m => `${m.diagnosis} - ${m.treatment} ($${m.cost})`).join('<br>') : 'No records';
+          document.getElementById('medicalInfo').innerHTML = info;
+        }
+      })
+      .catch(err => {
+        document.getElementById('medicalInfo').textContent = 'Error loading medical records';
+      });
+
+    // Profile link
+    document.getElementById('profileLink').href = `/profile?username=${username}`;
+  </script>
+</body>
+</html>
