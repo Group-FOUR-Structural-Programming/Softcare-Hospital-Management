@@ -35,6 +35,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="appointment.h" />
+		<Unit filename="billing.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="login.c">
 			<Option compilerVar="CC" />
 		</Unit>
