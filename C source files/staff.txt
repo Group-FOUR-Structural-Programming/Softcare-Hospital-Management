@@ -1,3 +1,7 @@
 Doctor doctor 0712345678 Doctor Doctor
 Nurse nurse 0712345678 Nurse Nurse
 Admin admin 0712345678 Admin Admin
+Boni nurse 0725869897 Boni Boni
+boni nurse 0123456789 boni boni
+Kate doctor 715544551 Kate Kate
+cate nurse 85854658966 cate cate

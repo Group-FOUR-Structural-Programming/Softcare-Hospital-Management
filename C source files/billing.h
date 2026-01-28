@@ -2,5 +2,6 @@
 #define BILLING_H
 
 void billingMenu();
+void viewBillingRecords();
 
 #endif

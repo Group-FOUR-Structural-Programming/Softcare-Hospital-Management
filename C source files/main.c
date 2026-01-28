@@ -19,6 +19,7 @@ void homeMenu() {
         printf("4. Staff Management (Only for admins)\n");
         printf("5. Medical Records\n");
         printf("6. Billing\n");
+        printf("7. View Billing Records\n");
         printf("0. Exit\n");
         printf("Choose option: ");
         scanf("%d", &choice);
@@ -41,6 +42,9 @@ void homeMenu() {
                 break;
             case 6:
                 billingMenu();
+                break;
+            case 7:
+                viewBillingRecords();
                 break;
             case 0:
                 printf("Exiting system...\n");

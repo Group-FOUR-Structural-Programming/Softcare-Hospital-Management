@@ -3,3 +3,7 @@ Jay-Z|Fakeness|Carelessness|254.00
 Jay-Z|Typhoid|you|300.00
 Patient1|ugonjwa|dawa|263.00
 Patient1|magonjwa|madawa|562.00
+Patient1|diseases|medicine|2890.00
+Kanye|magonjwa|sindano|300.00
+Kanye|Biopolar|Meditation|520.00
+Kanye|Malaria|Psychedelics|456.00
